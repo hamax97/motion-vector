@@ -3,17 +3,26 @@
 # Needed include dir
 INCLUDE = $(PWD)/include
 SRC = $(PWD)/src
+CC = gcc
+CCFLAGS = -Wall -I $(INCLUDE)
+LDFLAGS =
+SOURCES = $(wildcard $(SRC)/*.c)
+OBJECTS = $(SOURCES:.c=.o)
+TARGET = motion-vector
 
 # Go into src/ and run target motion-vector
-all: motion-vector
+all: $(TARGET)
 
-motion-vector: motion-vector.o
-	gcc -o $@ $<
+$(TARGET): $(OBJECTS)
+	$(CC) -o $@ $^ $(LDFLAGS)
 
-motion-vector.o:
-	gcc -c $(SRC)/motion-vector.c -I $(INCLUDE)
+%.o: %.c %.h
+	$(CC) $(CCFLAGS) -c $< -o $@
+
+%.o: %.c
+	$(CC) $(CCFLAGS) -c $< -o $@
 
 ###############################################################################
 
 clean:
-	rm -rf motion-vector motion-vector.o
+	rm -f *.o $(TARGET)

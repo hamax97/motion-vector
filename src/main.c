@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <math.h>
 #include <bmp.h>
+#include "mpeg2.h"
+#include "motion_vector.h"
 
 /* Function to read a file with BMP format */
 BMP read_bmp(char* file_name);
@@ -10,24 +12,32 @@ int
 main(int argc, char* argv[])
 {
 
-  if(argc != 2)
+  if(argc != 3)
     {
-      fprintf(stderr, "Usage:\n$ ./motion-vector <path/to/file.bmp>\n");
+      fprintf(stderr, "Usage:\n$ ./motion-vector <path/to/file.bmp> <path/to/file.bmp>\n");
       return EXIT_FAILURE;
     }
 
-  BMP input_frame, compressed_frame;
-  input_frame = read_bmp(argv[1]);
+  BMP original_frame, next_frame;
+  original_frame = read_bmp(argv[1]);
+  next_frame = read_bmp(argv[2]);
+  
   //compressed_frame = read_bmp(argv[2]);
 
   // CALL TO ALGORITHM HERE
   // ......................
 
-  /* Free allocated space in function read_bmp() */
-  for(int i = 0; i < input_frame.height; ++i)
-    free(input_frame.pixels[i]);
+  MotionVector compressed_frame = calc_motion_vector(original_frame, next_frame);
 
-  free(input_frame.pixels);
+  /* Free allocated space in function read_bmp() */
+  for(int i = 0; i < original_frame.height; ++i) {
+    free(original_frame.pixels[i]);
+    free(next_frame.pixels[i]);
+  }
+
+  compressed_frame.rows = compressed_frame.rows;
+  free(original_frame.pixels);
+  free(next_frame.pixels);
 
   /* for(int i = 0; i < compressed_frame.height; ++i) */
   /*   free(compressed_frame.pixels[i]); */

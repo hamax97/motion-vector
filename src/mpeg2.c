@@ -2,24 +2,24 @@
 #include <limits.h>
 
 MacroBlock fill_macro_block(BMP frame, int x, int y);
-Position search_macro_block(BMP *frame, MacroBlock *mb);
-int movey(BMP* frame, MacroBlock* mb, int posy,
+Position search_macro_block(BMP frame, MacroBlock *mb);
+int movey(BMP frame, MacroBlock* mb, int posy,
 	  Position* min_pos, int min_value,
 	  int limit_left, int limit_right);
 
-int movex(BMP* frame, MacroBlock* mb, int posx,
+int movex(BMP frame, MacroBlock* mb, int posx,
 	   Position* min_pos, int min_value,
 	  int limit_up, int limit_down);
 
 
-MotionVector calc_motion_vector(BMP* frame1, BMP* frame2) {
-  int num_blocks_y = frame1->height / 16;
-  int num_blocks_x = frame1->width / 16;
+MotionVector calc_motion_vector(BMP frame1, BMP frame2) {
+  int num_blocks_y = frame1.height / 16;
+  int num_blocks_x = frame1.width / 16;
   MotionVector mv = create_motion_blocks(num_blocks_y, num_blocks_x);
 
   for(int j = 0; j < num_blocks_y; j++) {
       for(int i = 0; i < num_blocks_x; i++) {
-	MacroBlock mb = fill_macro_block(*frame1, i, j);
+	MacroBlock mb = fill_macro_block(frame1, i, j);
 	Position new_pos = search_macro_block(frame2, &mb);
 	mv.macro_blocks[j][i] = new_pos;
 	}
@@ -42,9 +42,9 @@ MacroBlock fill_macro_block(BMP frame, int x, int y) {
 }
 
 
-Position search_macro_block(BMP *frame, MacroBlock *mb) {
-  int last_blocky = frame->height - 16;
-  int last_blockx = frame->width - 16;
+Position search_macro_block(BMP frame, MacroBlock *mb) {
+  int last_blocky = frame.height - 16;
+  int last_blockx = frame.width - 16;
   Position min_pos;
   int min_value = INT_MAX;
   
@@ -114,13 +114,13 @@ Position search_macro_block(BMP *frame, MacroBlock *mb) {
 }
 
 
-int movey(BMP* frame, MacroBlock* mb, int posy,
+int movey(BMP frame, MacroBlock* mb, int posy,
 	  Position* min_pos, int min_value,
 	   int limit_left, int limit_right)
 {
   for(int i = mb->x; i >= limit_left; i--)
     {
-      MacroBlock mb2 = fill_macro_block(*frame, i, posy);
+      MacroBlock mb2 = fill_macro_block(frame, i, posy);
       int diff = difference(*mb, mb2);
       if(diff == 0)
 	{
@@ -139,7 +139,7 @@ int movey(BMP* frame, MacroBlock* mb, int posy,
 
   for(int i = mb->x; i <= limit_right; i++)
     {
-      MacroBlock mb2 = fill_macro_block(*frame, i, posy);
+      MacroBlock mb2 = fill_macro_block(frame, i, posy);
       int diff = difference(*mb, mb2);
       if(diff == 0)
 	{
@@ -157,13 +157,13 @@ int movey(BMP* frame, MacroBlock* mb, int posy,
   return min_value;
 }
 
-int movex(BMP* frame, MacroBlock* mb, int posx,
+int movex(BMP frame, MacroBlock* mb, int posx,
 	   Position* min_pos, int min_value,
 	   int limit_up, int limit_down)
 {
   for(int i = mb->y; i >= limit_up; i--)
     {
-      MacroBlock mb2 = fill_macro_block(*frame, posx, i);
+      MacroBlock mb2 = fill_macro_block(frame, posx, i);
       int diff = difference(*mb, mb2);
       if(diff == 0)
 	{
@@ -182,7 +182,7 @@ int movex(BMP* frame, MacroBlock* mb, int posx,
 
   for(int i = mb->y; i <= limit_down; i++)
     {
-      MacroBlock mb2 = fill_macro_block(*frame, posx, i);
+      MacroBlock mb2 = fill_macro_block(frame, posx, i);
       int diff = difference(*mb, mb2);
       if(diff == 0)
 	{
