@@ -3,6 +3,10 @@
 
 MacroBlock fill_macro_block(BMP frame, int x, int y);
 Position search_macro_block(BMP frame, MacroBlock *mb);
+
+int move(BMP frame, MacroBlock* mb, int posy, int posx,
+	 Position* min_pos, int min_value);
+
 int movey(BMP frame, MacroBlock* mb, int posy,
 	  Position* min_pos, int min_value,
 	  int limit_left, int limit_right);
@@ -19,23 +23,24 @@ MotionVector calc_motion_vector(BMP frame1, BMP frame2) {
 
   for(int j = 0; j < num_blocks_y; j++) {
       for(int i = 0; i < num_blocks_x; i++) {
-	MacroBlock mb = fill_macro_block(frame1, i, j);
+	MacroBlock mb = fill_macro_block(frame1, 16*j, 16*i);
 	Position new_pos = search_macro_block(frame2, &mb);
 	mv.macro_blocks[j][i] = new_pos;
+	//printf("macroblock: (%i, %i) new pos: (%i, %i)\n", j, i, new_pos.y, new_pos.x);
 	}
     }
   return mv;
 }
 
 
-MacroBlock fill_macro_block(BMP frame, int x, int y) {
+MacroBlock fill_macro_block(BMP frame, int y, int x) {
   MacroBlock mb;
-  mb.x = x*16;
-  mb.y = y*16;
-  
+  mb.x = x;
+  mb.y = y;
+
   for(int i = 0; i < 16; i++) {
       for(int j = 0; j <16; j++) {
-	  mb.block[i][j] = frame.pixels[x*16 + i][y*16 + j];
+	  mb.block[i][j] = frame.pixels[y + i][x + j];
 	}
     }
   return mb;
@@ -49,27 +54,33 @@ Position search_macro_block(BMP frame, MacroBlock *mb) {
   int min_value = INT_MAX;
   
   int up, down;
-  up = down = mb->x;
+  up = down = mb->y;
   int left, right;
-  left = right = mb->y;
+  left = right = mb->x;
   char can_up, can_down, can_left, can_right, can_move;
   can_up = can_down = can_left = can_right = can_move = 0;
+
+  if(move(frame, mb, mb->y, mb->x, &min_pos, min_value) == 0) return min_pos;
 
   if(up != 0){
       can_up = 1;
       can_move++;
+      up--;
   }
   if(down < last_blocky-1) {
     can_down = 1;
     can_move++;
+    down++;
   }
   if(left != 0) {
     can_left = 1;
     can_move++;
+    left--;
   }
   if(right < last_blockx-1) {
     can_right = 1;
     can_move++;
+    right++;
   }
 
   while(can_move){
@@ -113,6 +124,19 @@ Position search_macro_block(BMP frame, MacroBlock *mb) {
   return min_pos;
 }
 
+int move(BMP frame, MacroBlock* mb, int posy, int posx,
+	 Position* min_pos, int min_value) {
+  MacroBlock mb2 = fill_macro_block(frame, posy, posx);
+  int diff = difference(*mb, mb2);
+  if(diff < min_value)
+    {
+      min_value = diff;
+      min_pos->x = posx;
+      min_pos->y = posy;
+    }
+  return min_value;
+}
+
 
 int movey(BMP frame, MacroBlock* mb, int posy,
 	  Position* min_pos, int min_value,
@@ -120,39 +144,14 @@ int movey(BMP frame, MacroBlock* mb, int posy,
 {
   for(int i = mb->x; i >= limit_left; i--)
     {
-      MacroBlock mb2 = fill_macro_block(frame, i, posy);
-      int diff = difference(*mb, mb2);
-      if(diff == 0)
-	{
-	  min_value = 0;
-	  min_pos->x = i;
-	  min_pos->y = posy;
-	  return min_value;
-	}
-      else if(diff < min_value)
-	{
-	  min_value = diff;
-	  min_pos->x = i;
-	  min_pos->y = posy;
-	}
+      min_value = move(frame, mb, posy, i, min_pos, min_value);
+      if(min_value == 0) return min_value;
     }
 
   for(int i = mb->x; i <= limit_right; i++)
     {
-      MacroBlock mb2 = fill_macro_block(frame, i, posy);
-      int diff = difference(*mb, mb2);
-      if(diff == 0)
-	{
-	  min_value = 0;
-	  min_pos->x = i;
-	  min_pos->y = posy;
-	}
-      else if(diff < min_value)
-	{
-	  min_value = diff;
-	  min_pos->x = i;
-	  min_pos->y = posy;
-	}
+      min_value = move(frame, mb, posy, i, min_pos, min_value);
+      if(min_value == 0) return min_value;
     }
   return min_value;
 }
@@ -163,40 +162,14 @@ int movex(BMP frame, MacroBlock* mb, int posx,
 {
   for(int i = mb->y; i >= limit_up; i--)
     {
-      MacroBlock mb2 = fill_macro_block(frame, posx, i);
-      int diff = difference(*mb, mb2);
-      if(diff == 0)
-	{
-	  min_value = 0;
-	  min_pos->x = posx;
-	  min_pos->y = i;
-	  return min_value;
-	}
-      else if(diff < min_value)
-	{
-	  min_value = diff;
-	  min_pos->x = posx;
-	  min_pos->y = i;
-	}
+      min_value = move(frame, mb, i, posx, min_pos, min_value);
+      if(min_value == 0) return min_value;
     }
 
   for(int i = mb->y; i <= limit_down; i++)
     {
-      MacroBlock mb2 = fill_macro_block(frame, posx, i);
-      int diff = difference(*mb, mb2);
-      if(diff == 0)
-	{
-	  min_value = 0;
-	  min_pos->x = posx;
-	  min_pos->y = i;
-	  return min_value;
-	}
-      else if(diff < min_value)
-	{
-	  min_value = diff;
-	  min_pos->x = posx;
-	  min_pos->y = i;
-	}
+      min_value = move(frame, mb, i, posx, min_pos, min_value);
+      if(min_value == 0) return min_value;
     }
   return min_value;
 }

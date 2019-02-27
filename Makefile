@@ -4,8 +4,8 @@
 INCLUDE = $(PWD)/include
 SRC = $(PWD)/src
 CC = gcc
-CCFLAGS = -Wall -I $(INCLUDE)
-LDFLAGS =
+CCFLAGS = -Wall -I $(INCLUDE) -O3
+LDFLAGS = -O3
 SOURCES = $(wildcard $(SRC)/*.c)
 OBJECTS = $(SOURCES:.c=.o)
 TARGET = motion-vector
@@ -26,3 +26,4 @@ $(TARGET): $(OBJECTS)
 
 clean:
 	rm -f *.o $(TARGET)
+	rm -f $(SRC)/*.o

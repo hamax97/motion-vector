@@ -10,5 +10,6 @@ typedef struct {
 } MotionVector;
 
 
-MotionVector create_motion_blocks(int rows, int cols); 
+MotionVector create_motion_blocks(int rows, int cols);
+void print_vector(MotionVector mv);
 #endif

@@ -11,7 +11,6 @@ BMP read_bmp(char* file_name);
 int
 main(int argc, char* argv[])
 {
-
   if(argc != 3)
     {
       fprintf(stderr, "Usage:\n$ ./motion-vector <path/to/file.bmp> <path/to/file.bmp>\n");
@@ -28,6 +27,7 @@ main(int argc, char* argv[])
   // ......................
 
   MotionVector compressed_frame = calc_motion_vector(original_frame, next_frame);
+  print_vector(compressed_frame);
 
   /* Free allocated space in function read_bmp() */
   for(int i = 0; i < original_frame.height; ++i) {
