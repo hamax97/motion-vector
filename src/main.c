@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <math.h>
 #include <bmp.h>
-#include "mpeg2.h"
-#include "motion_vector.h"
+#include <mpeg2.h>
+#include <motion_vector.h>
 
 /* Function to read a file with BMP format */
 BMP read_bmp(char* file_name);
