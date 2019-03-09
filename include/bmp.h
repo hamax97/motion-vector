@@ -13,7 +13,7 @@ typedef struct {
   /* Each .bmp image is padded to the right to have a width multiple
      of 4 bytes */
   unsigned int padding;
-  unsigned char** pixels; /* Pixels matrix */
+  unsigned char* pixels; /* Pixels matrix */
 } BMP;
 
 #endif

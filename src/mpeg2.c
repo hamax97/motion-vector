@@ -18,8 +18,8 @@ int movex(BMP frame, MacroBlock* mb, int posx,
 
 
 MotionVector calc_motion_vector(BMP frame1, BMP frame2) {
-  int num_blocks_y = frame1.height / 16;
-  int num_blocks_x = frame1.width / 16;
+  int num_blocks_y = frame1.height / 16; // What if it is not divisable by 16
+  int num_blocks_x = frame1.width / 16; // What happen with those restant pixels
   MotionVector mv = create_motion_blocks(num_blocks_y, num_blocks_x);
   int size = num_blocks_y * num_blocks_x;
 
@@ -27,7 +27,7 @@ MotionVector calc_motion_vector(BMP frame1, BMP frame2) {
   {
     #pragma omp for
     for(int i = 0; i < size; i++) {
-      int posy = i / num_blocks_x;
+      int posy = i / num_blocks_y; // Isn't it : i / num_blocks_y . ??
       int posx = i % num_blocks_x;
       MacroBlock mb = fill_macro_block(frame1, 16*posy, 16*posx);
       Position new_pos = search_macro_block(frame2, &mb);
@@ -44,9 +44,11 @@ MacroBlock fill_macro_block(BMP frame, int y, int x) {
   mb.x = x;
   mb.y = y;
 
-  for(int i = 0; i < 16; i++) {
-      for(int j = 0; j <16; j++) {
-	  mb.block[i][j] = frame.pixels[y + i][x + j];
+  for(int i = 0; i < 16; i++)
+    {
+      for(int j = 0; j <16; j++)
+	{
+	  mb.block[i][j] = frame.pixels[(y + i) + (x + j)];
 	}
     }
   return mb;
