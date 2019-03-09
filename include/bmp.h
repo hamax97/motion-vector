@@ -16,4 +16,7 @@ typedef struct {
   unsigned char* pixels; /* Pixels matrix */
 } BMP;
 
+/* Function to read a file with BMP format */
+BMP read_bmp(char* file_name);
+
 #endif

@@ -1,7 +1,7 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
 #include <bmp.h>
-
-/* Function to read a file with BMP format */
-BMP read_bmp(char* file_name);
 
 BMP read_bmp(char* file_name)
 {
@@ -62,8 +62,8 @@ BMP read_bmp(char* file_name)
 
       /* Allocate space for pixels matrix */
       bmp_frame.pixels =
-	(unsigned char **) malloc(bmp_frame.height *
-				  bmp_frame.width * sizeof(unsigned char **));
+	(unsigned char *) malloc(bmp_frame.height *
+				  bmp_frame.width * sizeof(unsigned char *));
 
       if(bmp_frame.pixels == NULL)
 	{
@@ -77,8 +77,8 @@ BMP read_bmp(char* file_name)
       int row = 0;
       for(int height = 0; height < bmp_frame.height; ++height)
       	{
-      	  if(fread((void *)bmp_frame.pixels[row], sizeof(unsigned char),
-      		   bmp_frame.width, bmp_file) != bmp_frame.width)
+      	  if( fread( (void *)(bmp_frame.pixels + row), sizeof(unsigned char),
+		     bmp_frame.width, bmp_file) != bmp_frame.width )
       	    {
       	      fprintf(stderr, "Error reading pixels matrix on file: %s",
       		      file_name);

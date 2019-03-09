@@ -44,11 +44,16 @@ MacroBlock fill_macro_block(BMP frame, int y, int x) {
   mb.x = x;
   mb.y = y;
 
+  /* Find out the row because frame.pixels now is an array */
+  y = y * frame.width;
+
   for(int i = 0; i < 16; i++)
     {
       for(int j = 0; j <16; j++)
 	{
-	  mb.block[i][j] = frame.pixels[(y + i) + (x + j)];
+	  int posy = y + i;
+	  int posx = x + j;
+	  mb.block[i][j] = frame.pixels[posy + posx];
 	}
     }
   return mb;
