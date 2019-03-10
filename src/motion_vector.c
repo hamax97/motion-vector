@@ -1,7 +1,8 @@
 #include <motion_vector.h>
 #include <stdio.h>
 
-MotionVector create_motion_blocks(int rows, int cols)
+MotionVector
+create_motion_blocks(int rows, int cols)
 {
   MotionVector mv;
   mv.rows = rows;
@@ -14,7 +15,9 @@ MotionVector create_motion_blocks(int rows, int cols)
   return mv;
 }
 
-void print_vector(MotionVector mv) {
+void
+print_vector(MotionVector mv)
+{
   printf("[ ");
   for(int i = 0; i < mv.rows; i++) {
     for(int j = 0; j < mv.cols; j++) {
