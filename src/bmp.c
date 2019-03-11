@@ -62,8 +62,8 @@ BMP read_bmp(char* file_name)
 
       /* Allocate space for pixels matrix */
       bmp_frame.pixels =
-	(unsigned char *) malloc(bmp_frame.height *
-				  bmp_frame.width * sizeof(unsigned char));
+	malloc(bmp_frame.height *
+	       bmp_frame.width * sizeof(unsigned char));
 
       if(bmp_frame.pixels == NULL)
 	{

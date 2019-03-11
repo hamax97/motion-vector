@@ -16,8 +16,10 @@ int movex(BMP frame, MacroBlock* mb, int posx,
 	   Position* min_pos, int min_value,
 	  int limit_up, int limit_down);
 
+extern int rank;
 
 MotionVector calc_motion_vector(BMP frame1, BMP frame2) {
+  printf("Frame size %dx%d\n", frame1.height, frame1.width);
   int num_blocks_y = frame1.height / 16; // What if it is not divisable by 16
   int num_blocks_x = frame1.width / 16; // What happen with those restant pixels
   MotionVector mv = create_motion_blocks(num_blocks_y, num_blocks_x);
@@ -27,7 +29,7 @@ MotionVector calc_motion_vector(BMP frame1, BMP frame2) {
   {
     #pragma omp for
     for(int i = 0; i < size; i++) {
-      int posy = i / num_blocks_y; // Isn't it : i / num_blocks_y . ??
+      int posy = i / num_blocks_x;
       int posx = i % num_blocks_x;
       MacroBlock mb = fill_macro_block(frame1, 16*posy, 16*posx);
       Position new_pos = search_macro_block(frame2, &mb);
@@ -44,14 +46,11 @@ MacroBlock fill_macro_block(BMP frame, int y, int x) {
   mb.x = x;
   mb.y = y;
 
-  /* Find out the row because frame.pixels now is an array */
-  y = y * frame.width;
-
   for(int i = 0; i < 16; i++)
     {
       for(int j = 0; j <16; j++)
 	{
-	  int posy = y + i;
+	  int posy = y + (i*frame.width);
 	  int posx = x + j;
 	  mb.block[i][j] = frame.pixels[posy + posx];
 	}
@@ -65,7 +64,7 @@ Position search_macro_block(BMP frame, MacroBlock *mb) {
   int last_blockx = frame.width - 16;
   Position min_pos;
   int min_value = INT_MAX;
-  
+
   int up, down;
   up = down = mb->y;
   int left, right;
@@ -106,7 +105,7 @@ Position search_macro_block(BMP frame, MacroBlock *mb) {
 	can_move--;
       } else up--;
     }
-    
+
     if(can_down) {
       min_value = movey(frame, mb, down, &min_pos, min_value, left, right);
       if(min_value == 0) break;
@@ -115,7 +114,7 @@ Position search_macro_block(BMP frame, MacroBlock *mb) {
 	can_move--;
       } else down++;
     }
-    
+
     if(can_left) {
       min_value = movex(frame, mb, left, &min_pos, min_value, up + can_up, down - can_down);
       if(min_value == 0) break;
@@ -124,7 +123,7 @@ Position search_macro_block(BMP frame, MacroBlock *mb) {
 	can_move--;
       }  else left--;
     }
-    
+
     if(can_right) {
       min_value = movex(frame, mb, right, &min_pos, min_value, up + can_up, down - can_down);
       if(min_value == 0) break;
