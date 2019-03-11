@@ -25,17 +25,13 @@ MotionVector calc_motion_vector(BMP frame1, BMP frame2) {
   MotionVector mv = create_motion_blocks(num_blocks_y, num_blocks_x);
   int size = num_blocks_y * num_blocks_x;
 
-#pragma omp parallel
-  {
-    #pragma omp for
-    for(int i = 0; i < size; i++) {
-      int posy = i / num_blocks_x;
-      int posx = i % num_blocks_x;
-      MacroBlock mb = fill_macro_block(frame1, 16*posy, 16*posx);
-      Position new_pos = search_macro_block(frame2, &mb);
-      mv.macro_blocks[posy][posx] = new_pos;
-      //printf("macroblock: (%i, %i) new pos: (%i, %i)\n", j, i, new_pos.y, new_pos.x);
-    }
+  for(int i = 0; i < size; i++) {
+    int posy = i / num_blocks_x;
+    int posx = i % num_blocks_x;
+    MacroBlock mb = fill_macro_block(frame1, 16*posy, 16*posx);
+    Position new_pos = search_macro_block(frame2, &mb);
+    mv.macro_blocks[posy][posx] = new_pos;
+    //printf("macroblock: (%i, %i) new pos: (%i, %i)\n", j, i, new_pos.y, new_pos.x);
   }
   return mv;
 }
