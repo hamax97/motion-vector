@@ -75,6 +75,7 @@ BMP read_bmp(char* file_name)
       fseek(bmp_file, matrix_addr - HEADER_SIZE, SEEK_CUR);
 
       int row = 0;
+      int t = 0;
       for(int height = 0; height < bmp_frame.height; ++height)
       	{
       	  if( fread( (void *)(bmp_frame.pixels + row), sizeof(unsigned char),
@@ -85,7 +86,9 @@ BMP read_bmp(char* file_name)
       	      exit(EXIT_FAILURE);
       	    }
 	  row += bmp_frame.width;
-      	}
+	  ++t;
+	}
+      printf("It were read %d rows\n",t);
 
     }else
     perror("Error reading BMP image file");

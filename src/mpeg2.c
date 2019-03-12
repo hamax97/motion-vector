@@ -19,11 +19,14 @@ int movex(BMP frame, MacroBlock* mb, int posx,
 extern int rank;
 
 MotionVector calc_motion_vector(BMP frame1, BMP frame2) {
-  printf("Frame size %dx%d\n", frame1.height, frame1.width);
+  printf("%d Frame1 size %dx%d\n", rank, frame1.height, frame1.width);
+  printf("%d Frame2 size %dx%d\n", rank, frame2.height, frame2.width);
   int num_blocks_y = frame1.height / 16; // What if it is not divisable by 16
   int num_blocks_x = frame1.width / 16; // What happen with those restant pixels
   MotionVector mv = create_motion_blocks(num_blocks_y, num_blocks_x);
   int size = num_blocks_y * num_blocks_x;
+
+  printf("%d Created motion vector\n", rank);
 
 #pragma omp parallel
   {
@@ -42,24 +45,27 @@ MotionVector calc_motion_vector(BMP frame1, BMP frame2) {
 
 
 MacroBlock fill_macro_block(BMP frame, int y, int x) {
+  printf("%d Started fill\n", rank);
   MacroBlock mb;
   mb.x = x;
   mb.y = y;
 
   for(int i = 0; i < 16; i++)
     {
+      int posy = y + (i*frame.width);
       for(int j = 0; j <16; j++)
 	{
-	  int posy = y + (i*frame.width);
 	  int posx = x + j;
 	  mb.block[i][j] = frame.pixels[posy + posx];
 	}
     }
+  printf("%d Finished fill\n", rank);
   return mb;
 }
 
 
-Position search_macro_block(BMP frame, MacroBlock *mb) {
+Position
+search_macro_block(BMP frame, MacroBlock *mb) {
   int last_blocky = frame.height - 16;
   int last_blockx = frame.width - 16;
   Position min_pos;
@@ -136,7 +142,8 @@ Position search_macro_block(BMP frame, MacroBlock *mb) {
   return min_pos;
 }
 
-int evaluate(BMP frame, MacroBlock* mb, int posy, int posx,
+int
+evaluate(BMP frame, MacroBlock* mb, int posy, int posx,
 	 Position* min_pos, int min_value) {
   MacroBlock mb2 = fill_macro_block(frame, posy, posx);
   int diff = difference(*mb, mb2);
