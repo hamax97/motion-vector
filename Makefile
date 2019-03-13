@@ -3,7 +3,7 @@
 # Needed include dir
 INCLUDE = $(PWD)/include
 SRC = $(PWD)/src
-CC = mpicc
+CC = gcc
 CCFLAGS = -Wall -I $(INCLUDE) -fopenmp -O3 -std=gnu99
 LDFLAGS = -fopenmp -O3
 SOURCES = $(wildcard $(SRC)/*.c)
