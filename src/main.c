@@ -26,6 +26,12 @@ main(int argc, char* argv[])
   int world_rank; /* MPI Process ID */
   MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
 
+  int level;
+  MPI_Query_thread(&level);
+  printf("AAA: %d\n", level);
+  MPI_Finalize();
+  return 0;
+
   BMP original_frame, next_frame;
   if(world_rank == 0)
     {
@@ -98,7 +104,7 @@ main(int argc, char* argv[])
   if(world_rank == 0)
     {
       my_original_frame.height = frame_dimensions[0] + missing_pixels;
-      my_original_frame.widt = frame_dimensions[1];
+      my_original_frame.width = frame_dimensions[1];
     }
   else
     {
@@ -172,9 +178,9 @@ main(int argc, char* argv[])
   /* ----------------------- Gather results --------------------------------- */
 
   /* Position datatype */
-  MPI_Datatype MPI_POS;
-  MPI_Type_contiguous(2, MPI_INT, &MPI_POS);
-  MPI_Type_commit(&MPI_POS);
+  //MPI_Datatype MPI_POS;
+  //MPI_Type_contiguous(2, MPI_INT, &MPI_POS);
+  //MPI_Type_commit(&MPI_POS);
 
   int my_size = compressed_frame.rows * compressed_frame.cols;
   Position my_result[my_size];
@@ -185,45 +191,45 @@ main(int argc, char* argv[])
       my_result[(i*compressed_frame.rows) + j] =
 	compressed_frame.macro_blocks[i][j];
 
-  printf("Result in process %d\n", world_rank);
+  printf("Result in process %d\n[", world_rank);
   for(int i = 0; i < compressed_frame.rows; ++i)
     for(int j = 0; j < compressed_frame.cols; ++j)
       printf("(%d, %d) ", my_result[(i*compressed_frame.rows) + j].y, my_result[(i*compressed_frame.rows) + j].x);
-  printf("\n");
+  printf("]\n");
 
   Position* recvbuff = NULL;
   int* recvcounts = NULL;
 
-  if(world_rank == 0)
-    {
-      int receive_buffer_size = (original_frame.height / 16) *
-	(original_frame.width / 16);
+  /* if(world_rank == 0) */
+  /*   { */
+  /*     int receive_buffer_size = (original_frame.height / 16) * */
+  /* 	(original_frame.width / 16); */
 
-      recvbuff = malloc(receive_buffer_size * sizeof(Position));
-      recvcounts = malloc(world_size * sizeof(int));
+  /*     recvbuff = malloc(receive_buffer_size * sizeof(Position)); */
+  /*     recvcounts = malloc(world_size * sizeof(int)); */
 
-      recvcounts[0] = my_size;
-      displs[0] = 0; /* Recycle of first displs */
+  /*     recvcounts[0] = my_size; */
+  /*     displs[0] = 0; /\* Recycle of first displs *\/ */
 
-      printf("Displs and Recvcount\n");
-      printf("Dis: %d ", displs[0]);
-      printf("cou: %d ", recvcounts[0]);
-      int sum = recvcounts[0];
-      for(int i = 1; i < world_size; ++i)
-	{
-	  /* Slave processes height and width */
-	  int process_height = (my_original_frame.height - missing_pixels) / 16;
-	  int process_width = my_original_frame.width / 16;
-	  recvcounts[i] = process_height * process_width;
-	  /* Displacements */
-	  displs[i] = sum;
-	  printf("cou: %d ", recvcounts[i]);
-	  printf("Dis: %d ", displs[i]);
-	  sum += recvcounts[i];
-	  //sum += recvcounts[i] + 1;
-	}
-      printf("\n");
-    }
+  /*     printf("Displs and Recvcount\n"); */
+  /*     printf("Dis: %d ", displs[0]); */
+  /*     printf("cou: %d ", recvcounts[0]); */
+  /*     int sum = recvcounts[0]; */
+  /*     for(int i = 1; i < world_size; ++i) */
+  /* 	{ */
+  /* 	  /\* Slave processes height and width *\/ */
+  /* 	  int process_height = (my_original_frame.height - missing_pixels) / 16; */
+  /* 	  int process_width = my_original_frame.width / 16; */
+  /* 	  recvcounts[i] = process_height * process_width; */
+  /* 	  /\* Displacements *\/ */
+  /* 	  displs[i] = sum; */
+  /* 	  printf("cou: %d ", recvcounts[i]); */
+  /* 	  printf("Dis: %d ", displs[i]); */
+  /* 	  sum += recvcounts[i]; */
+  /* 	  //sum += recvcounts[i] + 1; */
+  /* 	} */
+  /*     printf("\n"); */
+  /*   } */
 
   //MPI_Gatherv(my_result, my_size, MPI_POS,
   //	      recvbuff, recvcounts, displs, MPI_POS,

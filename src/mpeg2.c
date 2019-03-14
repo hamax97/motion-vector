@@ -30,7 +30,7 @@ MotionVector calc_motion_vector(BMP frame1, BMP frame2) {
 
 #pragma omp parallel
   {
-    #pragma omp for
+#pragma omp for
     for(int i = 0; i < size; i++) {
       int posy = i / num_blocks_x;
       int posx = i % num_blocks_x;
@@ -40,12 +40,14 @@ MotionVector calc_motion_vector(BMP frame1, BMP frame2) {
       //printf("macroblock: (%i, %i) new pos: (%i, %i)\n", j, i, new_pos.y, new_pos.x);
     }
   }
+
+  printf("Process %d going out from calc_motion_vector\n", rank);
   return mv;
 }
 
 
 MacroBlock fill_macro_block(BMP frame, int y, int x) {
-  printf("%d Started fill\n", rank);
+  //printf("%d Started fill\n", rank);
   MacroBlock mb;
   mb.x = x;
   mb.y = y;
@@ -59,7 +61,7 @@ MacroBlock fill_macro_block(BMP frame, int y, int x) {
 	  mb.block[i][j] = frame.pixels[posy + posx];
 	}
     }
-  printf("%d Finished fill\n", rank);
+  //printf("%d Finished fill\n", rank);
   return mb;
 }
 
