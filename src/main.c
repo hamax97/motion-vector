@@ -290,12 +290,6 @@ main(int argc, char* argv[])
 	my_result[(i*compressed_frame.cols) + j] =
 	  compressed_frame.macro_blocks[i][j];
 
-  printf("AQUIIIIIIIIIIII\n");
-  for(int i = 0; i < my_size; ++i){
-    printf("(%d,%d) ", my_result[i].x, my_result[i].y);
-  }
-  printf("AQUIIIIIIIIIIII\n");
-
   Position* recvbuff = NULL;
   int* recvcounts = NULL;
   int receive_buffer_size;
@@ -332,8 +326,8 @@ main(int argc, char* argv[])
     }
 
   
-  mpi_status = MPI_Gatherv(my_result, my_size, MPI_INT,
-			   recvbuff, recvcounts, displs, MPI_INT,
+  mpi_status = MPI_Gatherv(my_result, my_size, MPI_POS,
+			   recvbuff, recvcounts, displs, MPI_POS,
 			   0, MPI_COMM_WORLD);
 
   if(mpi_status != 0)
