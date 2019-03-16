@@ -23,7 +23,7 @@ print_positions(Position* macro_blocks, int rows, int cols)
   printf("[ ");
   for(int i = 0; i < rows; ++i) {
     for(int j = 0; j < cols; ++j) {
-      printf("(%03d, %03d)  ",
+      printf("(%d, %d)  ",
 	     macro_blocks[(i*rows) + j].y,
 	     macro_blocks[(i*rows) + j].x);
     }

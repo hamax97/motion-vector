@@ -19,13 +19,15 @@ int movex(BMP frame, MacroBlock* mb, int posx,
 extern int rank;
 
 MotionVector calc_motion_vector(BMP frame1, BMP frame2) {
-  printf("%d Frame1 size %d x %d\n", rank, frame1.height, frame1.width);
-  printf("%d Frame2 size %d x %d\n", rank, frame2.height, frame2.width);
-  int num_blocks_y = frame1.height / 16; // What if it is not divisable by 16
-  int num_blocks_x = frame1.width / 16; // What happen with those restant pixels
+  int num_blocks_y = frame1.height / 16;
+  int num_blocks_x = frame1.width / 16;
   MotionVector mv = create_motion_blocks(num_blocks_y, num_blocks_x);
   int size = num_blocks_y * num_blocks_x;
 
+  printf("%d FRAME1 HEIGHT %d HEIGHT/16 %d\n", rank, frame1.height, frame1.height);
+
+  printf("%d Frame1 size %d x %d\n", rank, frame1.height, frame1.width);
+  printf("%d Frame2 size %d x %d\n", rank, frame2.height, frame2.width);
   printf("%d Created motion vector\n", rank);
 
 #pragma omp parallel

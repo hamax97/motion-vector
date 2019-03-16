@@ -2,7 +2,8 @@
 #define POSITION_H
 
 typedef struct {
-  int x,y;
+  int x;
+  int y;
 } Position;
 
 #endif
