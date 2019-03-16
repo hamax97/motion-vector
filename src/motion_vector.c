@@ -12,15 +12,14 @@ create_motion_blocks(int rows, int cols)
     {
       mv.macro_blocks[i] = malloc(cols * sizeof(Position));
     }
-
-  printf("MotionVec size: %d\n", rows*cols);
+  
   return mv;
 }
 
 void
 print_positions(Position* macro_blocks, int rows, int cols)
 {
-  printf("[ ");
+  printf("[\n");
   for(int i = 0; i < rows; ++i) {
     for(int j = 0; j < cols; ++j) {
       printf("(%d, %d)  ",
@@ -28,9 +27,8 @@ print_positions(Position* macro_blocks, int rows, int cols)
 	     macro_blocks[(i*rows) + j].x);
     }
     printf("\n");
-    printf("  ");
   }
-  printf("]");
+  printf("]\n");
 }
 
 void
