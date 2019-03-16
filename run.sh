@@ -2,11 +2,12 @@
 
 # Arguments
 processes=$1
-binary=$2
-original_frame=$3
-compressed_frame=$4
+hosts_file=$2
+binary=$3
+original_frame=$4
+compressed_frame=$5
 
 # Env Vars
 #export OMP_NUM_THREADS=10
 
-mpirun -n $processes $binary $original_frame $compressed_frame
+mpirun -np $processes -f $hosts_file $binary $original_frame $compressed_frame

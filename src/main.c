@@ -26,11 +26,11 @@ main(int argc, char* argv[])
   int world_rank; /* MPI Process ID */
   MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
 
-  int level;
-  MPI_Query_thread(&level);
-  printf("AAA: %d\n", level);
-  MPI_Finalize();
-  return 0;
+  /* int level; */
+  /* MPI_Query_thread(&level); */
+  /* printf("AAA: %d\n", level); */
+  /* MPI_Finalize(); */
+  /* return 0; */
 
   BMP original_frame, next_frame;
   if(world_rank == 0)

@@ -19,8 +19,8 @@ int movex(BMP frame, MacroBlock* mb, int posx,
 extern int rank;
 
 MotionVector calc_motion_vector(BMP frame1, BMP frame2) {
-  printf("%d Frame1 size %dx%d\n", rank, frame1.height, frame1.width);
-  printf("%d Frame2 size %dx%d\n", rank, frame2.height, frame2.width);
+  printf("%d Frame1 size %d x %d\n", rank, frame1.height, frame1.width);
+  printf("%d Frame2 size %d x %d\n", rank, frame2.height, frame2.width);
   int num_blocks_y = frame1.height / 16; // What if it is not divisable by 16
   int num_blocks_x = frame1.width / 16; // What happen with those restant pixels
   MotionVector mv = create_motion_blocks(num_blocks_y, num_blocks_x);
