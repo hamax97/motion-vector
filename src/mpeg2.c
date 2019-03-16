@@ -1,5 +1,4 @@
 #include <mpeg2.h>
-#include <omp.h>
 #include <limits.h>
 
 MacroBlock fill_macro_block(BMP frame, int x, int y);
@@ -16,40 +15,27 @@ int movex(BMP frame, MacroBlock* mb, int posx,
 	   Position* min_pos, int min_value,
 	  int limit_up, int limit_down);
 
-extern int rank;
-
-MotionVector calc_motion_vector(BMP frame1, BMP frame2) {
+MotionVector
+calc_motion_vector(BMP frame1, BMP frame2) {
   int num_blocks_y = frame1.height / 16;
   int num_blocks_x = frame1.width / 16;
   MotionVector mv = create_motion_blocks(num_blocks_y, num_blocks_x);
   int size = num_blocks_y * num_blocks_x;
 
-  printf("%d FRAME1 HEIGHT %d HEIGHT/16 %d\n", rank, frame1.height, frame1.height);
-
-  printf("%d Frame1 size %d x %d\n", rank, frame1.height, frame1.width);
-  printf("%d Frame2 size %d x %d\n", rank, frame2.height, frame2.width);
-  printf("%d Created motion vector\n", rank);
-
-#pragma omp parallel
-  {
-#pragma omp for
-    for(int i = 0; i < size; i++) {
-      int posy = i / num_blocks_x;
-      int posx = i % num_blocks_x;
-      MacroBlock mb = fill_macro_block(frame1, 16*posy, 16*posx);
-      Position new_pos = search_macro_block(frame2, &mb);
-      mv.macro_blocks[posy][posx] = new_pos;
-      //printf("macroblock: (%i, %i) new pos: (%i, %i)\n", j, i, new_pos.y, new_pos.x);
-    }
+  for(int i = 0; i < size; i++) {
+    int posy = i / num_blocks_x;
+    int posx = i % num_blocks_x;
+    MacroBlock mb = fill_macro_block(frame1, 16*posy, 16*posx);
+    Position new_pos = search_macro_block(frame2, &mb);
+    mv.macro_blocks[posy][posx] = new_pos;
+    //printf("macroblock: (%i, %i) new pos: (%i, %i)\n", j, i, new_pos.y, new_pos.x);
   }
 
-  printf("Process %d going out from calc_motion_vector\n", rank);
   return mv;
 }
 
-
-MacroBlock fill_macro_block(BMP frame, int y, int x) {
-  //printf("%d Started fill\n", rank);
+MacroBlock
+fill_macro_block(BMP frame, int y, int x) {
   MacroBlock mb;
   mb.x = x;
   mb.y = y;
@@ -63,7 +49,6 @@ MacroBlock fill_macro_block(BMP frame, int y, int x) {
 	  mb.block[i][j] = frame.pixels[posy + posx];
 	}
     }
-  //printf("%d Finished fill\n", rank);
   return mb;
 }
 
@@ -161,7 +146,8 @@ evaluate(BMP frame, MacroBlock* mb, int posy, int posx,
 }
 
 
-int movey(BMP frame, MacroBlock* mb, int posy,
+int
+movey(BMP frame, MacroBlock* mb, int posy,
 	  Position* min_pos, int min_value,
 	   int limit_left, int limit_right)
 {
@@ -179,7 +165,8 @@ int movey(BMP frame, MacroBlock* mb, int posy,
   return min_value;
 }
 
-int movex(BMP frame, MacroBlock* mb, int posx,
+int
+movex(BMP frame, MacroBlock* mb, int posx,
 	   Position* min_pos, int min_value,
 	   int limit_up, int limit_down)
 {
