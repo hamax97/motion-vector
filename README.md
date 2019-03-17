@@ -10,10 +10,12 @@ Parallel algorithm for solving the motion vector problem.
 Run from this directory:
 ```
 $ make
-$ ./run.sh <num-threads> 2> serial-times
+$ ./run.sh <num-threads> 2> openmp-times
 ```
 
 Where <num-threads> is the number of threads to be used.
+
+The results in file *openmp-times* were obtained using 24 threads.
 
 The execution times can be found in the file *serial-times*.
 Each section of time represents each combination of images, A, B, C and D respectively, where:
