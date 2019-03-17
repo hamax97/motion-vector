@@ -85,7 +85,7 @@ BMP read_bmp(char* file_name)
       	      exit(EXIT_FAILURE);
       	    }
 	  row += bmp_frame.width;
-      	}
+	}
 
     }else
     perror("Error reading BMP image file");
