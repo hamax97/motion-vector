@@ -2,7 +2,6 @@
 #include <bmp.h>
 #include <mpeg2.h>
 #include <motion_vector.h>
-#include <mpi.h>
 
 int
 main(int argc, char* argv[])

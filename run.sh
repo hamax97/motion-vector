@@ -1,12 +1,11 @@
 #!/bin/bash
 
-# Arguments
-processes=$1
-binary=$2
-original_frame=$3
-compressed_frame=$4
+export OMP_NUM_THREADS=$1
 
-# Env Vars
-export OMP_NUM_THREADS=10
+time ./motion-vector tests/PrestigiousEnchantedKusimanse-size_restricted_frame_0001.bmp tests/PrestigiousEnchantedKusimanse-size_restricted_frame_0021.bmp
 
-mpirun -n $processes $binary $original_frame $compressed_frame
+time ./motion-vector tests/PrestigiousEnchantedKusimanse-size_restricted_frame_0002.bmp tests/PrestigiousEnchantedKusimanse-size_restricted_frame_0020.bmp
+
+time ./motion-vector tests/PrestigiousEnchantedKusimanse-size_restricted_frame_0003.bmp tests/PrestigiousEnchantedKusimanse-size_restricted_frame_0019.bmp
+
+time ./motion-vector tests/PrestigiousEnchantedKusimanse-size_restricted_frame_0004.bmp tests/PrestigiousEnchantedKusimanse-size_restricted_frame_0018.bmp

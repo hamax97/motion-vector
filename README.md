@@ -8,5 +8,31 @@ Parallel algorithm for solving the motion vector problem.
 # How to compile and run?
 
 Run from this directory:
-`$ make`
-`$ ./motion-vector tests/lena512x512.bmp`
+```
+$ make
+$ ./run.sh <num-threads> 2> serial-times
+```
+
+Where <num-threads> is the number of threads to be used.
+
+The execution times can be found in the file *serial-times*.
+Each section of time represents each combination of images, A, B, C and D respectively, where:
+- A:
+  * PrestigiousEnchantedKusimanse-size_restricted_frame_0001.bmp as original image.
+  * PrestigiousEnchantedKusimanse-size_restricted_frame_0021.bmp as compressed or moved image.
+
+- B:
+  * PrestigiousEnchantedKusimanse-size_restricted_frame_0002.bmp as original image.
+  * PrestigiousEnchantedKusimanse-size_restricted_frame_0020.bmp as compressed or moved image.
+
+- C:
+  * PrestigiousEnchantedKusimanse-size_restricted_frame_0003.bmp as original image.
+  * PrestigiousEnchantedKusimanse-size_restricted_frame_0019.bmp as compressed or moved image.
+
+- D:
+  * PrestigiousEnchantedKusimanse-size_restricted_frame_0004.bmp as original image.
+  * PrestigiousEnchantedKusimanse-size_restricted_frame_0018.bmp as compressed or moved image.
+
+# Important notes
+
+The image dimensions must be divisible by 16.
