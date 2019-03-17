@@ -19,7 +19,6 @@ Where <hosts-file> indicates the file with the hosts to use.
 
 The results in *mpi-times* were obtained using 24 processes in nodes 192.168.10.81-2.
 
-The execution times can be found in the file *serial-times*.
 Each section of time represents each combination of images, A, B, C and D respectively, where:
 - A:
   * PrestigiousEnchantedKusimanse-size_restricted_frame_0001.bmp as original image.
