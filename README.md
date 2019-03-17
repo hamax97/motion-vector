@@ -17,7 +17,6 @@ Where <num-threads> is the number of threads to be used.
 
 The results in file *openmp-times* were obtained using 24 threads.
 
-The execution times can be found in the file *serial-times*.
 Each section of time represents each combination of images, A, B, C and D respectively, where:
 - A:
   * PrestigiousEnchantedKusimanse-size_restricted_frame_0001.bmp as original image.
