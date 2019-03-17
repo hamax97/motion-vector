@@ -7,6 +7,12 @@ Parallel algorithm for solving the motion vector problem.
 
 # How to compile and run?
 
+To test each different implementation, that is, *serial, openmp, mpi, mpi + openmp*, change to each different branch, and follow the instructions there:
+
+```
+$ git branch <implementation>
+```
+
 Run from this directory:
 ```
 $ make
@@ -39,3 +45,7 @@ Each section of time represents each combination of images, A, B, C and D respec
 # Important notes
 
 The image dimensions must be divisible by 16.
+
+The methodology used to implement these algorithms is described in [PCAM](https://github.com/hamax97/motion-vector/blob/master/pcam.md)
+
+The description of the openmp implementation is decribed in [OpenMP](https://github.com/hamax97/motion-vector/blob/master/openmp.md)
