@@ -13,7 +13,6 @@ create_motion_blocks(int rows, int cols)
       mv.macro_blocks[i] = malloc(cols * sizeof(Position));
     }
 
-  printf("MotionVec size: %d\n", rows*cols);
   return mv;
 }
 

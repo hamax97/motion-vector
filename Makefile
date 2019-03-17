@@ -4,8 +4,8 @@
 INCLUDE = $(PWD)/include
 SRC = $(PWD)/src
 CC = gcc
-CCFLAGS = -Wall -I $(INCLUDE) -fopenmp -O3 -std=gnu99
-LDFLAGS = -fopenmp -O3
+CCFLAGS = -Wall -I $(INCLUDE) -O3 -std=gnu99
+LDFLAGS = -O3
 SOURCES = $(wildcard $(SRC)/*.c)
 OBJECTS = $(SOURCES:.c=.o)
 TARGET = motion-vector
