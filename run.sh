@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # Arguments
-processes=$1
+num_processes=$1
 hosts_file=$2
-binary=$3
-original_frame=$4
-compressed_frame=$5
 
-# Env Vars
-#export OMP_NUM_THREADS=10
+time mpirun -np $num_processes -f $hosts_file ./motion-vector tests/PrestigiousEnchantedKusimanse-size_restricted_frame_0001.bmp tests/PrestigiousEnchantedKusimanse-size_restricted_frame_0021.bmp
 
-mpirun -np $processes -f $hosts_file $binary $original_frame $compressed_frame
+time mpirun -np $num_processes -f $hosts_file ./motion-vector tests/PrestigiousEnchantedKusimanse-size_restricted_frame_0002.bmp tests/PrestigiousEnchantedKusimanse-size_restricted_frame_0020.bmp
+
+time mpirun -np $num_processes -f $hosts_file ./motion-vector tests/PrestigiousEnchantedKusimanse-size_restricted_frame_0003.bmp tests/PrestigiousEnchantedKusimanse-size_restricted_frame_0019.bmp
+
+time mpirun -np $num_processes -f $hosts_file ./motion-vector tests/PrestigiousEnchantedKusimanse-size_restricted_frame_0004.bmp tests/PrestigiousEnchantedKusimanse-size_restricted_frame_0018.bmp
