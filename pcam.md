@@ -1,1 +1,9 @@
-# How we apply pcam methodology
+# ¿Cómo aplicamos la metodología PCAM?
+
+## Particionado
+
+## Comunicaciones
+
+## Aglomeración
+
+## Mapeo
