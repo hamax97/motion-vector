@@ -44,9 +44,10 @@ Each section of time represents each combination of images, A, B, C and D respec
 
 # Important notes
 
-The tested results are plotted in [speedup](https://github.com/hamax97/motion-vector/blob/master/grafica.ipynb) and [speedup2](https://github.com/hamax97/motion-vector/blob/master/out_1.xlsx)
-The image dimensions must be divisible by 16.
+* The tested results are plotted in [speedup](https://github.com/hamax97/motion-vector/blob/master/grafica.ipynb) and [speedup2](https://github.com/hamax97/motion-vector/blob/master/out_1.xlsx)
 
-The methodology used to implement these algorithms is described in [PCAM](https://github.com/hamax97/motion-vector/blob/master/pcam.md)
+* The image dimensions must be divisible by 16.
 
-The description of the openmp implementation is decribed in [OpenMP](https://github.com/hamax97/motion-vector/blob/master/openmp.md)
+* The methodology used to implement these algorithms is described in [PCAM](https://github.com/hamax97/motion-vector/blob/master/pcam.md)
+
+* The description of the openmp implementation is decribed in [OpenMP](https://github.com/hamax97/motion-vector/blob/master/openmp.md)
