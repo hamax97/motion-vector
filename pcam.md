@@ -2,11 +2,17 @@
 
 ## Particionado
 Para el **particionado de datos** lo que hacemos es dividir la imagen en la cantidad de nodos disponibles, de la siguiente manera:
+
      - Sea p número de nodos, h la altura de la imagen, w el ancho de la imagen, x la altura de la matriz de macro bloques, k es equivalente al número de macro bloques por proceso, y r es equivalente al número de macro bloques que sobran, es decir, posiblemente el x no sea exactamente divisible entre el número de nodos, por esto la necesidad de r.
+
      > x = h / 16
+
      > k = x / p
+
      > r = x % p
+
      - Así, tenemos que, el nodo maestro se llevará ((k + r) * 16) * w píxeles, y los nodos esclavos (k * 16) * w píxeles. Lo que esto garantiza es que cada proceso tendrá una matriz que es divisible por 16 en su altura (*scatter*).
+
      - Luego de esto, se envía la imagen comprimida completamente a cada nodo (*broadcast*), con el objetivo de buscar esa imagen dividida previamente en la totalidad de la imagen comprimida.
 
 Para el **particionado de los cálculos** tenemos que cada proceso será ejecutado por cada nodo, es decir, si hay 3 nodos, entonces tendremos 3 procesos. En cada proceso se crearán tantos hilos como procesadores hayan en el nodo, es decir si el nodo tiene 24 procesadores, entonces se crearán 24 hilos en cada nodo. Cada uno de estos hilos es encargado de procesar una cantidad de macro bloques, es decir, buscarlos en la imagen comprimida y guarda su posición.
