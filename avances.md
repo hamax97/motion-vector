@@ -15,3 +15,15 @@
 ## Fecha: Marzo 12 a 17: Semana 2 - Proyecto2
 - Paralelización distribuida de algoritmo con hilos, libreria OpenMPI. Link: https://github.com/hamax97/motion-vector/tree/mpi
 - Todos los cómputos funcionan distribuidamente, pero tenemos un problema al hacer Gather de los resultados, no llegan correctamente.
+
+## Fecha: Marzo 12 a 17: Semana 2 - Proyecto2
+- Paralelización distribuida de algoritmo con hilos, libreria OpenMPI. Link: https://github.com/hamax97/motion-vector/tree/mpi
+- Todos los cómputos funcionan distribuidamente, pero tenemos un problema al hacer Gather de los resultados, no llegan correctamente.
+- Problema en Gather resuelto.
+- Testeo de las implementaciones Serial, OpenMP, MPI e MPI con OpenMP.
+- Conclusiones de los tests.
+- Descripción de la implementación en OpenMP.
+- Descripción de la metodología PCAM.
+- Videos de descripción del trabajo de cada integrante del grupo. Los videos los puede encontrar en las carpetas compartidas:
+  * https://drive.google.com/drive/folders/1yf5aoUAhXiyI3l3KUl5kUEzdfYU6SjEY para Hamilton Tobon
+  * https://drive.google.com/open?id=1iXcYBrzG7b8c9iHyoi8PHmerBSJvijYz para Diego Cifuentes
