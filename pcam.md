@@ -15,7 +15,7 @@ Para el **particionado de datos** lo que hacemos es dividir la imagen en la cant
 
 - Luego de esto, se envía la imagen comprimida completamente a cada nodo (*broadcast*), con el objetivo de buscar esa imagen dividida previamente en la totalidad de la imagen comprimida.
 
-- Esto puede verse mejor en [particionamiento]()
+- Esto puede verse mejor en [particionamiento](https://github.com/hamax97/motion-vector/blob/master/pcam-partitioning.png)
 
 Para el **particionado de los cálculos** tenemos que cada proceso será ejecutado por cada nodo, es decir, si hay 3 nodos, entonces tendremos 3 procesos. En cada proceso se crearán tantos hilos como procesadores hayan en el nodo, es decir si el nodo tiene 24 procesadores, entonces se crearán 24 hilos en cada nodo. Cada uno de estos hilos es encargado de procesar una cantidad de macro bloques, es decir, buscarlos en la imagen comprimida y guarda su posición.
 
@@ -35,6 +35,6 @@ Como ya se explicó, se crean tantas tareas como número de nodos hayan. Cada ta
 
 Cada nodo disponible se usa al máximo. Si cada nodo tiene 24 cores disponibles, entonces al programa se le debe indicar que use *n\*24* cores, donde *n* es equivalente al número de nodos. Junto con esto, la forma de repartir la imagen original en cada nodo, hace que la comunicación entre procesos sea mínima, es decir, cada nodo es encargado de *recibir* una única vez y procesar su pedazo de imagen, por consiguiente *enviar* una única vez sus resultados. Adicional a esto, los hilos que se crean para cada tarea no necesitan comunicarse entre sí, puesto que cada hilo es encargado de procesar un macro bloque que es independiente de todos los demás.
 
-- Esto puede verse mejor en [mapeo]()
+- Esto puede verse mejor en [mapeo](https://github.com/hamax97/motion-vector/blob/master/pcam-mapping.png)
 
 En conclusión, la forma de dividir los datos y el procesamiento es una forma "eficiente", puesto que se usan todos los recursos computacionales disponibles, y además se minimizan al máximo las comunicaciones entre procesos.
