@@ -29,7 +29,7 @@ Para el **particionado de los cálculos** tenemos que cada proceso será ejecuta
 Este tipo de comunicación es *bloqueante / bufereada*, es decir, cada paso de mensajes es posible debido a llamadas bloqueantes y el uso de bufers.
 
 ## Aglomeración
-Como ya se explicó, se crean tantas tareas como número de nodos hayan. Cada tarea es encargada de buscar una parte de la imagen original en la imagen comprimida. A su vez, cada tarea se divide en *n* subtareas, siendo *n* el número de procesadores de cada nodo. Cada subtarea es encargada de procesar *y* macro bloques, es decir, buscarlos en la imagen comprimida y guardar su posicón. El número de macro bloques que procesa cada tarea depende del tamaño de la sub imagen que tiene la tarea y también de cómo la directiva *#pragma omp for* divida las iteraciones sobre las subtareas.
+Como ya se explicó, se crean tantas tareas como número de nodos hayan. Cada tarea es encargada de buscar una parte de la imagen original en la imagen comprimida. A su vez, cada tarea se divide en *n* subtareas, siendo *n* el número de procesadores de cada nodo. Cada subtarea es encargada de procesar *x* macro bloques, es decir, buscarlos en la imagen comprimida y guardar su posicón. El número de macro bloques que procesa cada tarea depende del tamaño de la sub imagen que tiene la tarea y también de cómo la directiva *#pragma omp for* divida las iteraciones sobre las subtareas.
 
 ## Mapeo
 
