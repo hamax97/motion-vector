@@ -1,7 +1,7 @@
 # Descripción de la implementación en OpenMP.
 
 Implementación serial a grandes rasgos:
-1. Nuestra implementación serial consiste en buscar macro blocque por macro bloque de la imagen original, o sin comprimir en la imagen desplazada o comprimida.
+1. Nuestra implementación serial consiste en buscar macro bloque por macro bloque de la imagen original (o sin comprimir) en la imagen desplazada o comprimida.
 
 2. Al ser encontrado un match (suma de diferencias igual a 0), o una suma de diferencias mínima, se guarda la posición de este macro bloque y se coloca en una matriz.
 
