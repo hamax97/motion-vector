@@ -25,5 +25,5 @@
 - Descripción de la implementación en OpenMP.
 - Descripción de la metodología PCAM.
 - Videos de descripción del trabajo de cada integrante del grupo. Los videos los puede encontrar en:
-  * https://youtu.be/elB4OjK9Ez8 para Hamilton Tobon.
+  * https://youtu.be/1U4GcRSOEMs para Hamilton Tobon.
   * https://drive.google.com/open?id=1iXcYBrzG7b8c9iHyoi8PHmerBSJvijYz para Diego Cifuentes
